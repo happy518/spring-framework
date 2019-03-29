@@ -22,7 +22,6 @@ import java.util.Properties;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -73,6 +72,7 @@ public class TransactionInterceptorTests extends AbstractTransactionAspectTests 
 		assertEquals(tas, ti.getTransactionAttributeSource());
 
 		ProxyFactory pf = new ProxyFactory(target);
+		pf.addAdvice(0, ti);
 		pf.addAdvice(0, ti);
 		return pf.getProxy();
 	}

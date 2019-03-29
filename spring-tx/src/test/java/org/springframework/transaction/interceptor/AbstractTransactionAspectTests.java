@@ -16,11 +16,21 @@
 
 package org.springframework.transaction.interceptor;
 
-import java.lang.reflect.Method;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.mock;
+import static org.mockito.BDDMockito.times;
+import static org.mockito.BDDMockito.verify;
+import static org.mockito.BDDMockito.verifyZeroInteractions;
+import static org.mockito.BDDMockito.willThrow;
 
+import java.lang.reflect.Method;
 import org.junit.Before;
 import org.junit.Test;
-
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.tests.sample.beans.ITestBean;
 import org.springframework.tests.sample.beans.TestBean;
@@ -33,9 +43,6 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.transaction.interceptor.TransactionAspectSupport.TransactionInfo;
-
-import static org.junit.Assert.*;
-import static org.mockito.BDDMockito.*;
 
 /**
  * Mock object based tests for transaction aspects.
@@ -65,9 +72,8 @@ public abstract class AbstractTransactionAspectTests {
 		setNameMethod = ITestBean.class.getMethod("setName", String.class);
 	}
 
-
 	@Test
-	public void noTransaction() throws Exception {
+	public void testNoTransaction() throws Exception {
 		PlatformTransactionManager ptm = mock(PlatformTransactionManager.class);
 
 		TestBean tb = new TestBean();
@@ -76,13 +82,13 @@ public abstract class AbstractTransactionAspectTests {
 		// All the methods in this class use the advised() template method
 		// to obtain a transaction object, configured with the given PlatformTransactionManager
 		// and transaction attribute source
+
 		ITestBean itb = (ITestBean) advised(tb, ptm, tas);
 
-		checkTransactionStatus(false);
-		itb.getName();
-		checkTransactionStatus(false);
+		checkTransactionStatus(Boolean.FALSE);
+		itb.getAge();
+		checkTransactionStatus(Boolean.FALSE);
 
-		// expect no calls
 		verifyZeroInteractions(ptm);
 	}
 
