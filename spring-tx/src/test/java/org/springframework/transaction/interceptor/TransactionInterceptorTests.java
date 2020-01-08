@@ -73,7 +73,7 @@ public class TransactionInterceptorTests extends AbstractTransactionAspectTests 
 
 		ProxyFactory pf = new ProxyFactory(target);
 		pf.addAdvice(0, ti);
-		pf.addAdvice(0, ti);
+//		pf.addAdvice(0, ti);
 		return pf.getProxy();
 	}
 

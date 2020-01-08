@@ -687,6 +687,7 @@ public class DefaultStompSession implements ConnectionHandlingStompSession {
 			if (conn != null) {
 				conn.send(HEARTBEAT).addCallback(
 						new ListenableFutureCallback<Void>() {
+							@Override
 							public void onSuccess(@Nullable Void result) {
 							}
 							public void onFailure(Throwable ex) {
